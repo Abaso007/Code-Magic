@@ -22,7 +22,7 @@
     />
     <meta
       property="og:image"
-      content="https://nakam360.netlify.app/src/Assets/Images/open-graph.webp"
+      content="https://github-production-user-asset-6210df.s3.amazonaws.com/80192140/277101609-8a34c60a-4e79-4e29-beb0-7aabcea8fd58.png"
     />
 
     <!-- Twitter Meta Tags -->
@@ -36,7 +36,7 @@
     />
     <meta
       name="twitter:image"
-      content="https://nakam360.netlify.app/src/Assets/Images/open-graph.webp"
+      content="https://github-production-user-asset-6210df.s3.amazonaws.com/80192140/277101609-8a34c60a-4e79-4e29-beb0-7aabcea8fd58.png"
     />
 
     <!-- Meta Tags Generated via https://www.opengraph.xyz -->
@@ -70,6 +70,19 @@
     <script type="module" src="./src/main.ts" defer></script>
     <!-- Star Button Js -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-P445L31SWR"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'G-P445L31SWR');
+    </script>
 
     <title>Code Magic</title>
   </head>
@@ -313,6 +326,41 @@
               </li>
             </ul>
           </li>
+
+          <li id="layout-generator" class="dropdown">
+            <div>
+              <div>
+                <iconify-icon
+                  inline
+                  icon="ph:layout"
+                  style="color: white"
+                  width="20"
+                  height="20"
+                ></iconify-icon>
+                <span>Layout Generators</span>
+              </div>
+              <iconify-icon
+                inline
+                icon="material-symbols:arrow-drop-down-rounded"
+                style="color: white"
+                width="20"
+              ></iconify-icon>
+            </div>
+            <ul>
+              <li data-gen="grid-generators">
+                <iconify-icon
+                  inline
+                  icon="ep:grid"
+                  style="color: white"
+                  width="20"
+                  height="20"
+                ></iconify-icon>
+                <span>CSS Grid Generator</span>
+                <span class="tooltip"> Get styling for css grid </span>
+              </li>
+            </ul>
+          </li>
+
           <li id="random" class="dropdown">
             <div>
               <div>
@@ -346,38 +394,18 @@
                   Convert Your Image to Character Art
                 </span>
               </li>
-            </ul>
-          </li>
-          <li id="layout-generator" class="dropdown">
-            <div>
-              <div>
+              <li data-gen="scroll">
                 <iconify-icon
                   inline
-                  icon="ph:layout"
+                  icon="ph:mouse-scroll"
                   style="color: white"
                   width="20"
                   height="20"
                 ></iconify-icon>
-                <span>Layout Generators</span>
-              </div>
-              <iconify-icon
-                inline
-                icon="material-symbols:arrow-drop-down-rounded"
-                style="color: white"
-                width="20"
-              ></iconify-icon>
-            </div>
-            <ul>
-              <li data-gen="grid-generators">
-                <iconify-icon
-                  inline
-                  icon="ep:grid"
-                  style="color: white"
-                  width="20"
-                  height="20"
-                ></iconify-icon>
-                <span>CSS Grid Generator</span>
-                <span class="tooltip"> Get styling for css grid </span>
+                <span>Custom ScrollBar</span>
+                <span class="tooltip"
+                  >Change the color and style of the scrollbar</span
+                >
               </li>
             </ul>
           </li>
@@ -583,19 +611,28 @@
             <div class="preview" id="gradient-border-color-preview"></div>
 
             <label class="radius" for="gradient-border-radius">
-              <input type="checkbox" id="gradient-border-radius" name="check" />
-              <span> Include Radius </span>
-              <label id="radius-input-label" for="gradient-border-input">
-                <input
-                  type="number"
-                  id="gradient-border-input"
-                  name="desired-radius"
-                  placeholder="Enter a number e.g. 50"
-                  class="toggle-radius"
-                  autofocus
-                  required
-                />
-              </label>
+              <div class="radius-input-container">
+                <div class="radius-checkbox-container">
+                  <input
+                    class="circular-checkbox"
+                    type="checkbox"
+                    id="gradient-border-radius"
+                    name="check"
+                  />
+                  <span> Include Radius </span>
+                </div>
+                <label id="radius-input-label" for="gradient-border-input">
+                  <input
+                    type="number"
+                    id="gradient-border-input"
+                    name="desired-radius"
+                    placeholder="Enter a number e.g. 50"
+                    class="toggle-radius styled-input"
+                    autofocus
+                    required
+                  />
+                </label>
+              </div>
             </label>
 
             <label id="degree">
@@ -1193,46 +1230,62 @@
             </div>
 
             <!-- Border Radius for Tracks and Thumbs -->
+
             <div class="radius">
               <label for="input-range-thumb-radius">
-                <input
-                  type="checkbox"
-                  id="input-range-thumb-radius"
-                  name="check"
-                  class="input-range-inputs"
-                />
-                <span> Include Thumb Radius </span>
-                <label id="radius-input-label" for="input-range-thumb-input">
-                  <input
-                    type="number"
-                    id="input-range-thumb-input"
-                    name="desired-radius"
-                    class="toggle-radius input-range-inputs"
-                    placeholder="Enter a number e.g. 50"
-                    autofocus
-                    required
-                  />
-                </label>
+                <div class="input-range-container">
+                  <div class="checkbox-title">
+                    <input
+                      type="checkbox"
+                      id="input-range-thumb-radius"
+                      name="check"
+                      class="input-range-inputs circular-checkbox"
+                    />
+
+                    <span> Include Thumb Radius </span>
+                  </div>
+
+                  <label id="radius-input-label" for="input-range-thumb-input">
+                    <input
+                      type="number"
+                      min="1"
+                      max="120"
+                      id="input-range-thumb-input"
+                      name="desired-radius"
+                      class="toggle-radius input-range-inputs"
+                      placeholder="Enter a number e.g. 50"
+                      autofocus
+                      required
+                    />
+                  </label>
+                </div>
               </label>
               <label for="input-range-track-radius">
-                <input
-                  type="checkbox"
-                  id="input-range-track-radius"
-                  name="check"
-                  class="input-range-inputs"
-                />
-                <span> Include Track Radius </span>
-                <label id="radius-input-label" for="input-range-track-input">
-                  <input
-                    type="number"
-                    id="input-range-track-input"
-                    name="desired-radius"
-                    class="toggle-radius input-range-inputs"
-                    placeholder="Enter a number e.g. 50"
-                    autofocus
-                    required
-                  />
-                </label>
+                <div class="input-range-container">
+                  <div class="checkbox-title">
+                    <input
+                      type="checkbox"
+                      id="input-range-track-radius"
+                      name="check"
+                      class="input-range-inputs circular-checkbox"
+                    />
+
+                    <span> Include Track Radius </span>
+                  </div>
+                  <label id="radius-input-label" for="input-range-track-input">
+                    <input
+                      type="number"
+                      min="1"
+                      max="120"
+                      id="input-range-track-input"
+                      name="desired-radius"
+                      class="toggle-radius input-range-inputs"
+                      placeholder="Enter a number e.g. 50"
+                      autofocus
+                      required
+                    />
+                  </label>
+                </div>
               </label>
             </div>
 
@@ -1278,88 +1331,217 @@
             </div>
           </div>
           <!-- End of Input Type Range Generator -->
-        </div>
-        <!-- End of Input for Generators -->
 
-        <!-- Grid Generator -->
-        <div data-content="grid-generators" class="grid-generators">
-          <label for="grid-generators-preview">
-            <p>CSS Grid Preview</p>
-            <div
-              id="grid-generators-preview"
-              class="grid-generators-preview"
-            ></div>
-          </label>
-          <div class="rows">
-            <label for="grid-generators-rows" class="row full-page">
-              <input
-                type="number"
-                name="grid-generators-rows"
-                placeholder="Enter no of rows"
-                id="grid-generators-rows"
-                class="grid-generators-inputs"
-                min="0"
-                max="100"
-              />
-            </label>
-          </div>
-          <div class="columns">
-            <label for="grid-generator-columns" class="column full-page">
-              <input
-                type="number"
-                name="grid-generator-columns"
-                placeholder="Enter no of columns"
-                id="grid-generators-columns"
-                class="grid-generators-inputs"
-                min="0"
-                max="100"
-              />
-            </label>
-          </div>
-          <div class="btn-container">
-            <div class="reset" data-reset="grid-generators">Reset</div>
-            <div class="btn-dropdown-container">
-              <button class="btn" data-css-tailwind="grid-generators-code">
-                Copy Code
-                <iconify-icon
-                  inline
-                  icon="material-symbols:arrow-drop-down-rounded"
-                  style="color: white"
-                  width="20"
-                ></iconify-icon>
-              </button>
-              <div
-                class="css-tailwind"
-                data-dropdown="grid-generators-dropdown2"
-              >
-                <!-- dropdown elements go here -->
+          <!-- Custom Scroll Generator -->
+          <div data-content="scroll">
+            <!-- custom scroll generator -->
+            <h2>Preview</h2>
+            <br />
+            <div id="scroll-preview">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
+                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                sunt in culpa qui officia deserunt mollit anim id est laborum.
+              </p>
+            </div>
+            <br />
+            <div class="input">
+              <label for="color" class="color">
+                Track Color
+                <input
+                  type="text"
+                  data-coloris
+                  placeholder="Tap to pick a color"
+                  id="scroll-color1"
+                  class="scroll-inputs"
+                />
+              </label>
 
-                <div class="dropdown-item" data-download="grid-generators-code">
+              <label for="color" class="color">
+                Thumb Color
+                <input
+                  type="text"
+                  data-coloris
+                  placeholder="Tap to pick a color"
+                  id="scroll-color2"
+                  class="scroll-inputs"
+                />
+              </label>
+
+              <label for="color" class="color">
+                Thumb Color on Hover
+                <input
+                  type="text"
+                  data-coloris
+                  placeholder="Tap to pick a color"
+                  id="scroll-color3"
+                  class="scroll-inputs"
+                />
+              </label>
+
+              <label for="width">
+                Width
+                <input
+                  type="number"
+                  id="scroll-width"
+                  name="desired-radius"
+                  min="0"
+                  max="10"
+                  placeholder="Enter a number e.g. 50"
+                  class="styled-input scroll-inputs"
+                  autofocus
+                  required
+                />
+              </label>
+            </div>
+
+            <!-- Copy Code Button -->
+            <div class="btn-container">
+              <div class="reset" data-reset="scroll">Reset</div>
+              <div class="btn-dropdown-container">
+                <button class="btn" data-css-tailwind="scroll-code">
+                  Copy Code
                   <iconify-icon
                     inline
-                    icon="skill-icons:css"
-                    style="color: white; margin-right: 5px"
+                    icon="material-symbols:arrow-drop-down-rounded"
+                    style="color: white"
                     width="20"
                   ></iconify-icon>
-                  <span> Get CSS Code </span>
-                </div>
-                <div
-                  class="dropdown-item"
-                  data-download="grid-generators-tailwind"
-                >
-                  <iconify-icon
-                    inline
-                    icon="devicon:tailwindcss"
-                    style="color: white; margin-right: 5px"
-                    width="20"
-                  ></iconify-icon>
-                  <span> Get Tailwind </span>
+                </button>
+                <div class="css-tailwind" data-dropdown="scroll-dropdown2">
+                  <!-- dropdown elements go here -->
+
+                  <div class="dropdown-item" data-download="scroll-code">
+                    <iconify-icon
+                      inline
+                      icon="skill-icons:css"
+                      style="color: white; margin-right: 5px"
+                      width="20"
+                    ></iconify-icon>
+                    <span> Get CSS Code </span>
+                  </div>
+                  <!-- <div
+                    class="dropdown-item"
+                    data-download="scroll-tailwind"
+                  >
+                    <iconify-icon
+                      inline
+                      icon="devicon:tailwindcss"
+                      style="color: white; margin-right: 5px"
+                      width="20"
+                    ></iconify-icon>
+                    <span> Get Tailwind </span>
+                  </div> -->
                 </div>
               </div>
             </div>
           </div>
+          <!-- Grid Generator -->
+          <div data-content="grid-generators" class="grid-generators">
+            <div
+              id="grid-generators-preview"
+              class="grid-generators-preview"
+            ></div>
+            <div class="grid-input-containers">
+              <input
+                type="number"
+                name="grid-generators-rows"
+                id="grid-generators-rows"
+                placeholder="Rows"
+                class="grid-generators-inputs row full-page"
+                min="0"
+                max="100"
+              />
+              <input
+                type="number"
+                name="grid-generator-columns"
+                id="grid-generators-columns"
+                class="grid-generators-inputs column full-page"
+                placeholder="Columns"
+                min="0"
+                max="100"
+              />
+              <input
+                type="number"
+                name="grid-generators-row-gaps"
+                id="grid-generators-row-gaps"
+                placeholder="Row gap"
+                class="grid-generators-inputs row-gaps full-page"
+                min="0"
+                max="100"
+              />
+              <input
+                type="number"
+                name="grid-generators-column-gaps"
+                id="grid-generators-column-gaps"
+                placeholder="Column gap"
+                class="grid-generators-inputs column-gaps full-page"
+                min="0"
+                max="100"
+              />
+            </div>
+            <div class="btn-container">
+              <div class="reset" data-reset="grid-generators">Reset</div>
+              <div class="btn-dropdown-container">
+                <button class="btn" data-css-tailwind="grid-generators-code">
+                  Copy Code
+                  <iconify-icon
+                    inline
+                    icon="material-symbols:arrow-drop-down-rounded"
+                    style="color: white"
+                    width="20"
+                  ></iconify-icon>
+                </button>
+                <div
+                  class="css-tailwind"
+                  data-dropdown="grid-generators-dropdown2"
+                >
+                  <!-- dropdown elements go here -->
+
+                  <div
+                    class="dropdown-item"
+                    data-download="grid-generators-code"
+                  >
+                    <iconify-icon
+                      inline
+                      icon="skill-icons:css"
+                      style="color: white; margin-right: 5px"
+                      width="20"
+                    ></iconify-icon>
+                    <span> Get CSS Code </span>
+                  </div>
+                  <div
+                    class="dropdown-item"
+                    data-download="grid-generators-tailwind"
+                  >
+                    <iconify-icon
+                      inline
+                      icon="devicon:tailwindcss"
+                      style="color: white; margin-right: 5px"
+                      width="20"
+                    ></iconify-icon>
+                    <span> Get Tailwind </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Grid generator -->
         </div>
-        <!-- End of Grid generator -->
+        <!-- End of Input for Generators -->
 
         <!-- Result from Generators -->
         <div class="side-results">

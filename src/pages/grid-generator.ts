@@ -1,52 +1,98 @@
 import {
+  closeDropdown,
+  copyCSSCodeToClipboard,
+  copyTailwindCodeToClipboard,
+  showPopup,
+} from '../lib/packages/utils';
+import {
   getAllFields,
+  getColumnGap,
   getCopyCodeButton,
+  getCssOrTailwindButton,
+  getCssOrTailwindDropdown,
   getGridFields,
   getGridPreview,
   getNumberOfColumns,
   getNumberOfRows,
   getResetButton,
+  getRowGap,
   getTailwindButton,
-  getCssOrTailwindDropdown,
-  getCssOrTailwindButton,
 } from '../lib/getElements';
-import {
-  copyCSSCodeToClipboard,
-  copyTailwindCodeToClipboard,
-  showPopup,
-  closeDropdown,
-} from '../lib/packages/utils';
+
+import {setQueryParam} from '../lib/packages/helpers';
 
 const attribute = 'grid-generators';
-const getCssOrTailwindDropdownElement = getCssOrTailwindDropdown(attribute);
 const showCopyClass = 'show-css-tailwind';
 
-export function gridGenerator(): void {
+const getCssOrTailwindDropdownElement = getCssOrTailwindDropdown(attribute);
+const preview = getGridPreview(attribute);
+const noOfColumns = getNumberOfColumns(attribute);
+const noOfRows = getNumberOfRows(attribute);
+const rowGapValue = getRowGap(attribute);
+const columnGapValue = getColumnGap(attribute);
+
+function areInputsValid() {
   const noOfColumns = getNumberOfColumns(attribute);
   const noOfRows = getNumberOfRows(attribute);
 
+  const isColumnInputValid =
+    noOfColumns.value.length > 0
+      ? parseInt(noOfColumns.value) >= 1 && parseInt(noOfColumns.value) <= 100
+      : true;
+  const isRowInputValid =
+    noOfRows.value.length > 0
+      ? parseInt(noOfRows.value) >= 1 && parseInt(noOfRows.value) <= 100
+      : true;
+
+  if (isColumnInputValid && isRowInputValid) return true;
+
+  showPopup(
+    'Limit Exceeded',
+    'The input value should be within 1 and 100.',
+    'error'
+  );
+
+  return false;
+}
+
+export function gridGenerator(): void {
   const getCssOrTailwindButtonElement = getCssOrTailwindButton(attribute);
 
-  const preview = getGridPreview(attribute);
+  const allGridInputs = [noOfColumns, noOfRows, rowGapValue, columnGapValue];
 
-  const allGridInputs = [noOfColumns, noOfRows];
-
-  const allGridInputFields = getGridFields(attribute, ['rows', 'columns']);
+  const allGridInputFields = getGridFields(attribute, [
+    'rows',
+    'columns',
+    'row-gaps',
+    'column-gaps',
+  ]);
 
   const getGridColValue = () => `repeat(${parseInt(noOfColumns.value)}, 1fr)`;
   const getGridRowValue = () => `repeat(${parseInt(noOfRows.value)}, 1fr)`;
-  preview.style.display = 'grid';
-  preview.style.gridTemplateColumns = getGridColValue();
-  preview.style.gridTemplateRows = getGridRowValue();
+  const getGridColGapValue = () => `${parseInt(columnGapValue.value)}px`;
+  const getGridRowGapValue = () => `${parseInt(rowGapValue.value)}px`;
 
   allGridInputs.forEach((input, index) => {
     if (index < 4) {
       allGridInputFields[index].textContent = `${input.value}px`;
     }
+
     input.addEventListener('input', () => {
+      if (areInputsValid() === false) return;
       preview.style.display = 'grid';
       preview.style.gridTemplateColumns = getGridColValue();
       preview.style.gridTemplateRows = getGridRowValue();
+      preview.style.rowGap = getGridRowGapValue();
+      preview.style.columnGap = getGridColGapValue();
+
+      const values = {
+        columns: getGridColValue(),
+        rows: getGridRowValue(),
+        rowGap: getGridRowGapValue(),
+        columnGap: getGridColGapValue(),
+      };
+
+      setQueryParam('values', JSON.stringify(values));
       updatePreviewElement();
     });
   });
@@ -65,8 +111,21 @@ function getCssOrTailwind(e?: MouseEvent): void {
 
 closeDropdown(getCssOrTailwind, getCssOrTailwindDropdownElement, showCopyClass);
 
+function doInputExist() {
+  const noOfColumns = getNumberOfColumns(attribute);
+  const noOfRows = getNumberOfRows(attribute);
+
+  if (!noOfColumns.value || !noOfRows.value) {
+    showPopup("Couldn't Copy Code", 'Some input value may be missing', 'error');
+    return false;
+  }
+
+  return true;
+}
+
 function copyTailwindHandler() {
   const outputElement: HTMLElement = getGridPreview(attribute);
+  if (doInputExist() === false) return;
   copyTailwindCodeToClipboard(attribute, outputElement);
   showPopup(
     'Tailwind Code Copied',
@@ -77,6 +136,7 @@ function copyTailwindHandler() {
 
 function copyCSSHandler() {
   const outputElement = getGridPreview(attribute);
+  if (doInputExist() === false) return;
   copyCSSCodeToClipboard(attribute, outputElement);
   showPopup(
     'Code Copied',
@@ -119,6 +179,7 @@ function updatePreviewElement() {
   const noOfRows = getNumberOfRows(attribute).value;
   const rows = parseInt(noOfRows !== '' ? noOfRows : '0');
   const columns = parseInt(noOfColumns !== '' ? noOfColumns : '0');
+
   if (rows > columns) {
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < columns; j++) {
@@ -135,5 +196,31 @@ function updatePreviewElement() {
         preview.appendChild(child);
       }
     }
+  }
+}
+
+export const applyGridValues = (values: string) => {
+  const parsed = JSON.parse(values);
+
+  noOfColumns.value = getFirstValue(parsed.columns);
+  noOfRows.value = getFirstValue(parsed.rows);
+  rowGapValue.value = parsed.rowGap[0];
+  columnGapValue.value = parsed.columnGap[0];
+
+  preview.style.display = 'grid';
+  preview.style.gridTemplateColumns = parsed.columns;
+  preview.style.gridTemplateRows = parsed.rows;
+  preview.style.rowGap = parsed.rowGap;
+  preview.style.columnGap = parsed.columnGap;
+
+  updatePreviewElement();
+};
+
+function getFirstValue(input: string) {
+  const match = input.match(/repeat\((\d+),\s*([^\)]+)\)/);
+  if (match) {
+    return match[1];
+  } else {
+    return '';
   }
 }
